@@ -1,8 +1,11 @@
 package com.davidsonperez.practica.restuser.web.controller;
 
+import com.davidsonperez.practica.restuser.data.entity.User;
+import com.davidsonperez.practica.restuser.data.repository.UserRepository;
 import com.davidsonperez.practica.restuser.service.UserService;
 import com.davidsonperez.practica.restuser.web.dto.UserDto;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,7 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("user")
 public class UserController {
     
-    private UserService userService;
+        private UserService userService;
+        UserDto userDto;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -48,8 +52,9 @@ public class UserController {
     }
     
     @GetMapping("/{id}")
-    public UserDto getOne(@PathVariable("id") Long id) {
-        return userService.findOne(id);
+    public ResponseEntity<UserDto> getOne(@PathVariable("id") Long id) {
+        userDto = userService.findOne(id);
+        return ResponseEntity.ok(userDto);
     }
     
     @PutMapping("/{id}")
